@@ -8,7 +8,7 @@ from datetime import datetime
 
 # ================== CONFIG ==================
 TOKEN = os.getenv("BOT_TOKEN")
-ADMIN_ID = 6648308251  # canza idan ya bambanta
+ADMIN_ID = 6648308251
 bot = telebot.TeleBot(TOKEN)
 
 # ================== DATA ==================
@@ -119,8 +119,6 @@ def generate_python_pdf(chat_id):
     username = users[chat_id]["username"]
     pdf = FPDF()
     pdf.add_page()
-
-    # Border
     pdf.set_line_width(1.2)
     pdf.rect(10, 10, 190, 277)
 
@@ -133,7 +131,6 @@ def generate_python_pdf(chat_id):
     pdf.ln(60)
     pdf.set_font("Arial", "B", 18)
     pdf.cell(0, 10, "PYTHON COURSE COMPLETION", ln=True, align="C")
-
     pdf.ln(10)
     pdf.set_font("Arial", size=14)
     pdf.cell(0, 10, f"Name: {username}", ln=True, align="C")
@@ -143,7 +140,6 @@ def generate_python_pdf(chat_id):
     for lesson in python_lessons:
         pdf.multi_cell(0, 8, lesson + "\n")
 
-    # Signature
     pdf.ln(20)
     pdf.set_font("Arial", size=12)
     pdf.cell(0, 10, "__________________________", ln=True, align="R")
@@ -214,8 +210,6 @@ def generate_physics_certificate(chat_id, score, total):
 
     pdf = FPDF()
     pdf.add_page()
-
-    # Gold-like border
     pdf.set_line_width(1.5)
     pdf.rect(10, 10, 190, 277)
 
@@ -225,30 +219,24 @@ def generate_physics_certificate(chat_id, score, total):
     except:
         pass
 
-    # Title
     pdf.ln(60)
     pdf.set_font("Arial", "B", 20)
     pdf.cell(0, 10, "PHYSICS QUIZ CERTIFICATE", ln=True, align="C")
-
     pdf.ln(15)
     pdf.set_font("Arial", size=14)
     pdf.cell(0, 10, "This certifies that", ln=True, align="C")
-
     pdf.ln(10)
     pdf.set_font("Arial", "B", 18)
     pdf.cell(0, 10, username, ln=True, align="C")
-
     pdf.ln(15)
     pdf.set_font("Arial", size=14)
     pdf.cell(0, 10, "has successfully completed the Physics Quiz", ln=True, align="C")
-
     pdf.ln(15)
     pdf.set_font("Arial", size=12)
     pdf.cell(0, 10, f"Score: {score} / {total}", ln=True, align="C")
     pdf.cell(0, 10, f"Grade: {grade}", ln=True, align="C")
     pdf.cell(0, 10, f"Date: {date_str}", ln=True, align="C")
 
-    # Signature
     pdf.ln(40)
     pdf.set_font("Arial", size=12)
     pdf.cell(0, 10, "__________________________", ln=True, align="R")
@@ -269,5 +257,20 @@ def admin_panel(message):
         bot.send_message(message.chat.id, "❌ You are not admin.")
         return
     bot.send_message(message.chat.id, "Welcome Admin!", reply_markup=admin_menu())
-    print("🤖 Bot is running...")
+
+# ================== RUN BOT ==================
+print("🤖 Bot is running...")
 bot.infinity_polling()
+
+# ================== KEEP RENDER ALIVE ==================
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Bot is running!"
+
+def run():
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
+Thread(target=run).start()
