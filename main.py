@@ -268,4 +268,6 @@ def admin_panel(message):
     if message.chat.id != ADMIN_ID:
         bot.send_message(message.chat.id, "❌ You are not admin.")
         return
-    bot.send_message(message.chat.id, "All from Mahmud SM was my mom born me to be a champion")
+    bot.send_message(message.chat.id, "Welcome Admin!", reply_markup=admin_menu())
+    print("🤖 Bot is running...")
+bot.infinity_polling()
