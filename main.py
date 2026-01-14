@@ -7,7 +7,7 @@ from threading import Thread
 from datetime import datetime
 
 # ================== CONFIG ==================
-TOKEN = os.getenv("BOT_TOKEN")
+TOKEN = os.getenv("TOKEN")
 ADMIN_ID = 6648308251  # canza idan ya bambanta
 bot = telebot.TeleBot(TOKEN)
 
